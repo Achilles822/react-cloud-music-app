@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Slider from '../../components/slider'
 import RecommendList from '../../components/list';
 import Scroll from '../../baseUI/Scroll';
 import styled from 'styled-components';
+import { Content } from './style'
+import { connect } from 'react-redux'
+import * as actionTypes from './store/actionCreators'
 
-export const Content = styled.div`
-  position: fixed;
-  top: 90px;
-  bottom: 0;
-  width: 100%;
-`
+
 function Recommend(props) {
+
     const bannerList = [1, 2, 3, 4].map((item) => {
         return { imageUrl: "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg" }
     })
