@@ -4,7 +4,7 @@ import BScroll from "better-scroll"
 import styled from 'styled-components'
 import LoadingV2 from '../loading-v2/index';
 import Loading from '../Loading/index'
-// import { debounce } from '../../api/utils'
+import { debounce } from '../../api/utils'
 const ScrollContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -36,6 +36,16 @@ const Scroll = forwardRef((props, ref) => {
     const { pullUp, pullDown, onScroll } = props
 
 
+    let pullUpDebounce = useMemo(() => {
+        return debounce(pullUp, 300)
+    }, [pullUp]);
+    // 千万注意，这里不能省略依赖，
+    // 不然拿到的始终是第一次 pullUp 函数的引用，相应的闭包作用域变量都是第一次的，产生闭包陷阱。下同。
+
+    let pullDownDebounce = useMemo(() => {
+        return debounce(pullDown, 300)
+    }, [pullDown]);
+    
     useEffect(() => {
         const scroll = new BScroll(scrollContainerRef.current, {
             scrollX: direction === "horizental",
@@ -70,7 +80,7 @@ const Scroll = forwardRef((props, ref) => {
         if (!bScroll || !pullUp) return
         bScroll.on('scrollEnd', () => {
             if (bScroll.y <= bScroll.maxScrollY + 100) {
-                pullUp()
+                pullUpDebounce();
             }
         })
         return () => {
@@ -82,7 +92,7 @@ const Scroll = forwardRef((props, ref) => {
         bScroll.on('touchEnd', (pos) => {
             // 判断用户的下拉动作
             if (pos.y > 50) {
-                pullDown();
+                pullDownDebounce();
             }
         });
         return () => {
