@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Horizen from '../../baseUI/horizen-item';
 import { categoryTypes, alphaTypes } from '../../api/config';
 import {
@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import Loading from '../../baseUI/Loading';
 import { CategoryDataContext } from './data';
-import { CHANGE_CATEGORY, CHANGE_ALPHA, Data } from './data';
+import { CHANGE_CATEGORY, CHANGE_ALPHA } from './data';
 function Singers(props) {
   // let [category, setCategory] = useState('');
   // let [alpha, setAlpha] = useState('');
