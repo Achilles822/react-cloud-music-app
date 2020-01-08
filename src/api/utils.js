@@ -41,11 +41,49 @@ export const filterIdx = name => {
 
 export const getName = list => {
   let str = "";
-  list.map ((item, index) => {
+  list.map((item, index) => {
     str += index === 0 ? item.name : "/" + item.name;
     return item;
   });
   return str;
 };
 
-export const isEmptyObject = obj => !obj || Object.keys (obj).length === 0;
+export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
+
+
+// 给css3相关属性增加浏览器前缀，处理浏览器兼容性问题
+let elementStyle = document.createElement("div").style;
+
+let vendor = (() => {
+  //首先通过transition属性判断是何种浏览器
+  let transformNames = {
+    webkit: "webkitTransform",
+    Moz: "MozTransform",
+    O: "OTransfrom",
+    ms: "msTransform",
+    standard: "Transform"
+  };
+  for (let key in transformNames) {
+    if (elementStyle[transformNames[key]] !== undefined) {
+      return key;
+    }
+  }
+  return false;
+})();
+
+export function prefixStyle(style) {
+  if (vendor === false) {
+    return false;
+  }
+  if (vendor === "standard") {
+    return style;
+  }
+  return vendor + style.charAt(0).toUpperCase() + style.substr(1);
+}
+//转换歌曲播放时间
+export const formatPlayTime = interval => {
+  interval = interval | 0;
+  const minute = (interval / 60) | 0;
+  const second = (interval % 60).toString().padStart(2, "0");
+  return `${minute}:${second}`;
+};
